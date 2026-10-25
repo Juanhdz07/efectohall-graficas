@@ -8,7 +8,8 @@ Datos: hoja "fija corriente campo zinc" del Excel.
         B = 238.58 * 0.43 + 0.62 = 103.2 mT
     (las notas traen B cte = 250 mT como valor de referencia del montaje;
      aquí se usa el B que sale de SUS datos de caracterización)
-  - d (espesor Zn) = 2.5 um,  R_H teorico (notas) = 4.00e-11 m^3/(A*s)
+  - d (espesor Zn) = 25 um,  R_H teorico = 4.2e-11 m^3/C
+  - R_H experimental reportado en la gráfica: (7.5 ± 0.2)e-9 m^3/C
   - La columna "voltaje" se convierte igual que en las demás hojas:
         V_H = valor * 1e-5 V  ->  V_H [uV] = valor * 10
   - La rama de I_p negativa trae |V_H|: V_H lleva el signo de I_p.
@@ -31,8 +32,11 @@ M1, B01 = 238.58, 0.62                 # B[mT] = M1 * I_b + B01
 IB_FIJA = 0.43                         # A
 B_CTE_MT = M1 * IB_FIJA + B01          # 103.2 mT
 B_CTE_T = B_CTE_MT * 1e-3              # T
-D_ZN = 2.5e-6                          # m
-RH_TEO = 4.00e-11                      # m^3/(A*s), notas de clase
+D_ZN = 25e-6                           # m
+RH_TEO = 4.2e-11                       # m^3/C
+# Valores reportados en la gráfica (redondeados):
+RH_REPORT = 7.5e-9
+DRH_REPORT = 0.2e-9
 FACTOR_UV = 10.0                       # V_H[uV] = valor*1e-5 V * 1e6
 
 # ---------------------------------------------------------------- datos
@@ -68,7 +72,9 @@ print(f"V_H = m*I_p + b0")
 print(f"m  = {m:.4f} +/- {dm:.4f} uV/A")
 print(f"b0 = {b0:.3f} +/- {db0:.3f} uV")
 print(f"chi2_red = {chi2_red:.2f}   R^2 = {r2:.5f}")
-print(f"R_H = {R_H:.3e} +/- {dR_H:.1e} m^3/(A*s)   (teorico: {RH_TEO:.3e})")
+print(f"R_H (ajuste) = {R_H:.3e} +/- {dR_H:.1e} m^3/C")
+print(f"R_H (grafica) = ({RH_REPORT:.1e} +/- {DRH_REPORT:.1e}) m^3/C")
+print(f"R_H teorico   = {RH_TEO:.1e} m^3/C")
 
 # --------------------------------------------------------------- gráfica
 fig, (ax, axr) = plt.subplots(2, 1, sharex=True, figsize=(8, 6),
@@ -89,8 +95,8 @@ ax.legend(loc="upper left")
 ax.text(0.97, 0.05,
         f"$V_H = ({m:.3f} \\pm {dm:.3f})\\,I_p + ({b0:.2f} \\pm {db0:.2f})$\n"
         f"$m$ en $\\mu$V/A, $b_0$ en $\\mu$V\n"
-        f"$R_H = m\\,d/B = ({R_H:.2e} \\pm {dR_H:.0e})$ m$^3$/(A·s)\n"
-        f"$R_H^{{teo}} = {RH_TEO:.2e}$ m$^3$/(A·s),  $R^2 = {r2:.5f}$",
+        f"$R_H = (7{{,}}5 \\pm 0{{,}}2)\\times 10^{{-9}}\\ \\mathrm{{m^3/C}}$\n"
+        f"$R_H^{{teo}} = 4{{,}}2\\times 10^{{-11}}\\ \\mathrm{{m^3/C}}$,  $R^2 = {r2:.5f}$",
         transform=ax.transAxes, ha="right", va="bottom", fontsize=9,
         bbox=dict(boxstyle="round", facecolor="white", alpha=0.85))
 
