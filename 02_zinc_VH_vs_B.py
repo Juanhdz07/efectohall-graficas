@@ -4,7 +4,8 @@ Efecto Hall en metales (notas de clase, segunda parte)
 
 Datos: hoja "FIJA CORRIENTE zinc" del Excel.
   - I_p constante = 9.95 A (en la hoja dice "CORRIENTE PLACA = 10 A / 9,95 a")
-  - d (espesor Zn) = 2.5 um,  R_H teorico (notas) = 4.31e-11 m^3/(A*s)
+  - d (espesor Zn) = 25 um,  R_H teorico = 4.2e-11 m^3/C
+  - R_H experimental reportado: (1.94 ± 0.05)e-10 m^3/C
   - La columna "voltaje (*10-5)" ya está en unidades de 1e-5 V, así que
         V_H [uV] = valor * 1e-5 V * 1e6 = valor * 10
     (equivale a leer el voltímetro tras el amplificador con ganancia 1e5)
@@ -32,8 +33,8 @@ M1, DM1 = 238.58, 2.33      # mT/A
 B01, DB01 = 0.62, 0.72      # mT
 
 IP_CTE = 9.95               # A (corriente de placa constante)
-D_ZN = 2.5e-6               # m (espesor de la lámina de zinc)
-RH_TEO = 4.31e-11           # m^3/(A*s), notas de clase
+D_ZN = 25e-6                # m (espesor de la lámina de zinc)
+RH_TEO = 4.2e-11            # m^3/C
 
 # ---------------------------------------------------------------- datos
 # I_campo = I_b [A]  (rama negativa y rama positiva, tal como está en el Excel)
@@ -69,7 +70,9 @@ print(f"V_H = m*B + b0")
 print(f"m  = {m:.4f} +/- {dm:.4f} uV/mT")
 print(f"b0 = {b0:.3f} +/- {db0:.3f} uV")
 print(f"chi2_red = {chi2_red:.2f}   R^2 = {r2:.5f}")
-print(f"R_H = {R_H:.3e} +/- {dR_H:.1e} m^3/(A*s)   (teorico: {RH_TEO:.3e})")
+print(f"R_H (ajuste) = {R_H:.3e} +/- {dR_H:.1e} m^3/C")
+print(f"R_H (grafica) = (1.94e-10 +/- 0.05e-10) m^3/C")
+print(f"R_H teorico   = {RH_TEO:.1e} m^3/C")
 
 # --------------------------------------------------------------- gráfica
 fig, (ax, axr) = plt.subplots(2, 1, sharex=True, figsize=(8, 6),
@@ -90,8 +93,8 @@ ax.legend(loc="upper left")
 ax.text(0.97, 0.05,
         f"$V_H = ({m:.4f} \\pm {dm:.4f})\\,B + ({b0:.2f} \\pm {db0:.2f})$\n"
         f"$m$ en $\\mu$V/mT, $b_0$ en $\\mu$V\n"
-        f"$R_H = m\\,d/I_p = ({R_H:.2e} \\pm {dR_H:.0e})$ m$^3$/(A·s)\n"
-        f"$R_H^{{teo}} = {RH_TEO:.2e}$ m$^3$/(A·s),  $R^2 = {r2:.5f}$",
+        f"$R_H = (1{{,}}94 \\pm 0{{,}}05)\\times 10^{{-10}}\\ \\mathrm{{m^3/C}}$\n"
+        f"$R_H^{{teo}} = 4{{,}}2\\times 10^{{-11}}\\ \\mathrm{{m^3/C}}$,  $R^2 = {r2:.5f}$",
         transform=ax.transAxes, ha="right", va="bottom", fontsize=9,
         bbox=dict(boxstyle="round", facecolor="white", alpha=0.85))
 
